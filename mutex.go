@@ -140,7 +140,7 @@ func (m *Mutex) release(pool redis.Pool, value string) (bool, error) {
 	if err != nil {
 		return false, err
 	}
-	return status != 0, nil
+	return status != int64(0), nil
 }
 
 var touchScript = redis.NewScript(1, `
@@ -158,7 +158,7 @@ func (m *Mutex) touch(pool redis.Pool, value string, expiry int) (bool, error) {
 	if err != nil {
 		return false, err
 	}
-	return status != "ERR", nil
+	return status != int64(0), nil
 }
 
 func (m *Mutex) actOnPoolsAsync(actFn func(redis.Pool) (bool, error)) (int, error) {
